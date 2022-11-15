@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "pklshop"
+  site-url: "https://NolanSmyth.github.io/pklshop"
+  description: "A library for accessing and analyzing Pickleball data from pklmart"
+  repo-branch: main
+  repo-url: "https://github.com/NolanSmyth/pklshop"
