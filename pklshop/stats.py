@@ -20,27 +20,3 @@ class Table:
         self._df = None
     def __str__(self): return f"{self.table_name} table"
     __repr__ = __str__
-
-
-    # def pull_data(conn, tablename):
-
-    #     """
-    #     Pulls data from the database for a given table and returns a pandas dataframe.
-    #     See https://pklmart.com/postgres_pklm_pklm_prd/relationships.html for a list of tables.
-    #     """
-    #     with conn.cursor() as cursor:
-    #         try:
-    #             cursor.execute(
-    #                 f"SELECT column_name FROM information_schema.columns where table_name='{tablename}';"
-    #             )
-    #             cols = cursor.fetchall()
-    #             cols = [cols[x][0] for x in range(len(cols))]
-    #             cursor.execute(f"SELECT * FROM pklm_prd.{tablename}")
-    #             data = cursor.fetchall()
-    #             return pd.DataFrame(data, columns=cols)
-    #         except Exception as inst:
-    #             print(type(inst))
-    #             print(inst.args)
-    #             print(inst)
-
-

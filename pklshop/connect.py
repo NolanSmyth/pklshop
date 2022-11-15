@@ -4,6 +4,8 @@
 __all__ = ['config']
 
 # %% ../nbs/00_connect.ipynb 3
+from configparser import ConfigParser
+
 def config(filename="../database.ini", section="postgresql"):
     """Reads the database.ini file and returns the connection parameters as a dictionary.
     Assumes the ini file is in the parent directory"""
