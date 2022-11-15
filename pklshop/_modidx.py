@@ -5,6 +5,7 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://NolanSmyth.github.io',
                 'git_url': 'https://github.com/NolanSmyth/pklshop',
                 'lib_path': 'pklshop'},
-  'syms': { 'pklshop.stats': { 'pklshop.stats.Table': ('stats.html#table', 'pklshop/stats.py'),
+  'syms': { 'pklshop.connect': {'pklshop.connect.config': ('connect.html#config', 'pklshop/connect.py')},
+            'pklshop.stats': { 'pklshop.stats.Table': ('stats.html#table', 'pklshop/stats.py'),
                                'pklshop.stats.Table.__init__': ('stats.html#table.__init__', 'pklshop/stats.py'),
                                'pklshop.stats.Table.__str__': ('stats.html#table.__str__', 'pklshop/stats.py')}}}
