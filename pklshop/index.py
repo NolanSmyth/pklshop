@@ -4,4 +4,4 @@
 __all__ = []
 
 # %% ../nbs/index.ipynb 9
-from .stats import *
+from .data import *

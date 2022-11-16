@@ -18,10 +18,10 @@ pip install pklshop
 
 First, you’ll need to setup a `database.ini` file (it’s only about 5
 lines). This should be stored in the `pklshop` root directory. Check out
-`nbs/00_connect` for an example of how to write this.
+`connect` for an example of how to write this.
 
 Once that’s done, this lib provides a function
-[`get_tab_as_df`](https://NolanSmyth.github.io/pklshop/stats.html#get_tab_as_df)
+[`get_tab_as_df`](https://NolanSmyth.github.io/pklshop/data.html#get_tab_as_df)
 you can use to create and display tables within the database
 
 Available tables are:
@@ -30,7 +30,14 @@ Available tables are:
 table_names
 ```
 
-    ['tournament', 'match', 'game', 'player', 'team']
+    ['tournament',
+     'match',
+     'game',
+     'rally',
+     'shot_type_ref',
+     'shot',
+     'player',
+     'team']
 
 ``` python
 match_df = get_tab_as_df("match")
