@@ -12,4 +12,5 @@ d = { 'settings': { 'branch': 'main',
                                  'pklshop.connect.DbConnection._connect': ('connect.html#dbconnection._connect', 'pklshop/connect.py'),
                                  'pklshop.connect.DbConnection.pull_data': ('connect.html#dbconnection.pull_data', 'pklshop/connect.py'),
                                  'pklshop.connect.config': ('connect.html#config', 'pklshop/connect.py')},
+            'pklshop.data': {'pklshop.data.get_tab_as_df': ('data.html#get_tab_as_df', 'pklshop/data.py')},
             'pklshop.stats': {'pklshop.stats.get_tab_as_df': ('stats.html#get_tab_as_df', 'pklshop/stats.py')}}}
