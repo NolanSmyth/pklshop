@@ -2,8 +2,8 @@
 
 # %% auto 0
 __all__ = ['rally', 'players', 'game', 'team', 'match', 'tournament', 'get_first_serve_team', 'get_team_names', 'get_team_ids',
-           'summarize_game', 'team_first_serve_win_frac', 'get_frac_first_serve_wins', 'get_player_id_from_name',
-           'get_teams_from_player', 'games_played_by_team']
+           'summarize_game', 'team_first_serve_win_frac', 'team_win_frac', 'get_frac_first_serve_wins',
+           'get_player_id_from_name', 'get_teams_from_player', 'games_played_by_team']
 
 # %% ../nbs/02_stats.ipynb 3
 from .data import *
@@ -49,7 +49,7 @@ def summarize_game(game_id: str):
 # %% ../nbs/02_stats.ipynb 16
 def team_first_serve_win_frac(team_id):
     '''
-    Takes a team id and returns that team's first serve win percentage.
+    Takes a team id and returns that team's first serve win fraction.
     '''
     # Get all rallies where the team served the first rally of the game
     rally_fs_df = rally[(rally.rally_nbr == 1) & (rally.srv_team_id == team_id)]
@@ -60,6 +60,17 @@ def team_first_serve_win_frac(team_id):
         return 0
     else:
         return num_first_serve_games_won/num_first_serves
+
+def team_win_frac(team_id):
+    '''
+    Takes a team id and returns that team's win fraction.
+    '''
+    num_games = len(game[game.w_team_id == team_id]) + len(game[game.l_team_id == team_id])
+    num_wins = len(game[game.w_team_id == team_id])
+    if num_games == 0:
+        return 0
+    else:
+        return num_wins/num_games
 
 # %% ../nbs/02_stats.ipynb 21
 def get_frac_first_serve_wins(game_df):
@@ -76,6 +87,7 @@ def get_frac_first_serve_wins(game_df):
 def get_player_id_from_name(player_name: str):
     '''
     Returns the player_id of a player with player_name.
+    #todo deal with players with 3 names.
     '''
     first, last = player_name.split(' ')[0], player_name.split(' ')[1]
     name_mask = (players.first_nm.str.lower() == first.lower()) & (players.last_nm.str.lower() == last.lower())
@@ -91,7 +103,7 @@ def get_teams_from_player(player_id: str):
     '''
     return team[team.player_id == player_id].team_id.values
 
-# %% ../nbs/02_stats.ipynb 27
+# %% ../nbs/02_stats.ipynb 28
 def games_played_by_team(team_id):
     '''
     Returns the number of games played by a team with team_id.

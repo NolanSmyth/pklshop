@@ -22,4 +22,5 @@ d = { 'settings': { 'branch': 'main',
                                'pklshop.stats.get_team_names': ('stats.html#get_team_names', 'pklshop/stats.py'),
                                'pklshop.stats.get_teams_from_player': ('stats.html#get_teams_from_player', 'pklshop/stats.py'),
                                'pklshop.stats.summarize_game': ('stats.html#summarize_game', 'pklshop/stats.py'),
-                               'pklshop.stats.team_first_serve_win_frac': ('stats.html#team_first_serve_win_frac', 'pklshop/stats.py')}}}
+                               'pklshop.stats.team_first_serve_win_frac': ('stats.html#team_first_serve_win_frac', 'pklshop/stats.py'),
+                               'pklshop.stats.team_win_frac': ('stats.html#team_win_frac', 'pklshop/stats.py')}}}
