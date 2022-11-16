@@ -7,7 +7,7 @@ __all__ = ['table_names', 'get_tab_as_df']
 from .connect import *
 
 # %% ../nbs/01_data.ipynb 4
-table_names = ["tournament", "match", "game", "player", "team"]
+table_names = ["tournament", "match", "game", "rally", "shot_type_ref", "shot", "player", "team",]
 
 # %% ../nbs/01_data.ipynb 7
 def get_tab_as_df(table_name:str):
