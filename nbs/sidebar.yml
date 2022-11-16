@@ -4,3 +4,4 @@ website:
       - index.ipynb
       - 00_connect.ipynb
       - 01_data.ipynb
+      - 02_stats.ipynb
