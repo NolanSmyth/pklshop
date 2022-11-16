@@ -3,4 +3,4 @@ website:
     contents:
       - index.ipynb
       - 00_connect.ipynb
-      - 01_stats.ipynb
+      - 01_data.ipynb
