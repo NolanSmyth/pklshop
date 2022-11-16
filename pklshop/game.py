@@ -9,7 +9,6 @@ from .stats import *
 from .name import *
 import pandas as pd
 
-
 # %% ../nbs/03_game.ipynb 6
 class Game:
     """
