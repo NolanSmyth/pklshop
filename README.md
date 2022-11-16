@@ -138,3 +138,9 @@ match_df.head()
   </tbody>
 </table>
 </div>
+
+To see a more complete analysis in action, check out the
+[examples](https://github.com/NolanSmyth/pklshop/tree/main/examples).
+Also check out Connor and
+[this](https://github.com/conner-mcnicholas/pickleball_analysis/)
+analysis by conner-mcnicholas on timeout momentum!
