@@ -34,12 +34,6 @@ def team_win_frac(team_id):
     else:
         return num_wins/num_games
 
-# def get_team_names(team_id: str):
-#     '''
-#     Returns the name of the team with team_id
-#     '''
-#     return team[team.team_id == team_id].team_nm.values[0]
-
 # %% ../nbs/02_stats.ipynb 12
 def get_first_serve_team(game_id: str):
     '''
@@ -58,19 +52,6 @@ def get_frac_first_serve_wins(game_df):
     return count/len(game_df)
 
 # %% ../nbs/02_stats.ipynb 15
-# def get_player_id_from_name(player_name: str):
-#     '''
-#     Returns the player_id of a player with player_name.
-#     #todo deal with players with 3 names.
-#     '''
-#     first, last = player_name.split(' ')[0], player_name.split(' ')[1]
-#     name_mask = (players.first_nm.str.lower() == first.lower()) & (players.last_nm.str.lower() == last.lower())
-#     if max(name_mask) == False:
-#         print("Player not found")
-#         return None
-#     else:
-#         return players[name_mask].player_id.values[0]
-
 def get_teams_from_player(player_id: str):
     '''
     Returns the team_ids of the teams that a player with player_id played for.
