@@ -10,6 +10,7 @@ from .name import *
 from .game import *
 from .match import *
 import pandas as pd
+import numpy as np
 
 # %% ../nbs/06_player.ipynb 5
 class Player():
@@ -75,6 +76,28 @@ class Player():
                 gs += [g_id]
         return gs
     
+    def error_rate(self):
+        '''
+        Returns the error rate of the player accross all games played
+        '''
+        error_rates = []
+        for g_id in self.games_played:
+            g = Game(g_id)
+            error_rate = g.get_error_rate(self.player_id)
+            error_rates += [error_rate]
+        return sum(error_rates)/len(error_rates)
+    
+    def third_shot_profile(self):
+        '''
+        Returns the third shot profile of the player
+        '''
+        third_shots = np.zeros(4)
+        for g_id in self.games_played:
+            g = Game(g_id)
+            thirds = np.array(g.player_third_shots(self.player_id))
+            third_shots += thirds
+        return third_shots
+
     def summarize_player(self):
         '''
         Prints a summary of the player's stats
@@ -89,7 +112,7 @@ class Player():
         print(f"Teams: {[get_team_name(team) for team in self.teams]}")
 
 
-# %% ../nbs/06_player.ipynb 10
+# %% ../nbs/06_player.ipynb 11
 def head_to_head(p1: Player, p2: Player):
     '''
     Returns the results of matches where p1 and p2 have played against each other

@@ -74,4 +74,36 @@ class Game:
         summary_df['Error %'] = [round(self.get_error_rate(p_id)*100,2) for p_id in self.players.player_id.values]
         summary_df['Winner %'] = [round(self.get_winners_rate(p_id)*100,2) for p_id in self.players.player_id.values]
         print(summary_df.to_string(index=False))
+    
+    def player_third_shots(self, player_id):
+        '''
+        Summarizes the types of 3rd shots for a given player in a game
+        '''
+        player_thirds = self.rally[self.rally.ts_player_id == player_id]
+        num_drops = sum(player_thirds.ts_type == 'Drop')
+        num_drives = sum(player_thirds.ts_type == 'Drive')
+        num_lobs = sum(player_thirds.ts_type == 'Lob')
+        num_thirds = num_drops + num_drives + num_lobs
 
+        return num_drops, num_drives, num_lobs, num_thirds
+        
+    def summarize_third_shots(self):
+        '''
+        Summarizes the types of 3rd shots for each player in a game
+        '''
+        summary_df = pd.DataFrame({'Player': [get_player_name(p_id, self.players) for p_id in self.players.player_id.values]})
+        num_drops_arr = []
+        num_drives_arr = []
+        num_lobs_arr = []
+        num_thirds_arr = []
+        for player_id in self.players.player_id.values:
+            num_drops, num_drives, num_lobs, num_thirds = self.player_third_shots(player_id)
+            num_drops_arr.append(num_drops), num_drives_arr.append(num_drives), num_lobs_arr.append(num_lobs), num_thirds_arr.append(num_thirds)
+        summary_df['Drops %'] = [round(num_drops_arr[i]/num_thirds_arr[i]*100,2) for i in range(len(num_drops_arr))]
+        summary_df['Drives %'] = [round(num_drives_arr[i]/num_thirds_arr[i]*100,2) for i in range(len(num_drops_arr))]
+        summary_df['Lobs %'] = [round(num_lobs_arr[i]/num_thirds_arr[i]*100,2) for i in range(len(num_drops_arr))]
+        summary_df['Total Thirds'] = num_thirds_arr
+        
+        print(summary_df.to_string(index=False))
+
+            
