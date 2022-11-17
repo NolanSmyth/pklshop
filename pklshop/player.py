@@ -31,6 +31,8 @@ class Player():
         self.games_won = self.games_won()
         self.num_games_won = len(self.games_won)
 
+        self.partner_ids = self.associated_partners()
+
     def __str__(self):
         return f"{self.name}, id: {self.player_id}"
     __repr__ = __str__
@@ -40,6 +42,18 @@ class Player():
         Returns the team_ids of the teams that the player played for.
         '''
         return team[team.player_id == self.player_id].team_id.values
+    
+    def associated_partners(self):
+        '''
+        Returns the player_ids of the players that the player has played with
+        '''
+        partners = []
+        for team_id in self.teams:
+            team = Team(team_id)
+            for p_id in team.players:
+                if p_id != self.player_id:
+                    partners.append(p_id)
+        return partners
     
     def games_played(self):
         '''
@@ -88,21 +102,51 @@ class Player():
             error_rates += [error_rate]
         return sum(error_rates)/len(error_rates)
     
-    def partner_win_rate(self):
+    def partners_win_rate(self):
         '''
-        Returns the win rate of the player's partners
+        Returns the win rate of the player's partners excluding games where the player was on the same team as their partner
         '''
-        partner_rates = []
-        for team_id in self.teams:
-            team = Team(team_id)
-            for p_id in team.players:
-              if p_id != self.player_id:
-                p2 = Player(p_id)
-                partner_rates.append(p2.num_games_won/p2.num_games_played)
-
-        return sum(partner_rates)/len(partner_rates)
         
-    
+        partners_exclusive_wins = 0
+
+        for p_id in self.partner_ids:
+            p2 = Player(p_id)
+            games_w_partner = self.games_played_with_partner(p2)
+            p2_games_wo_player_partner = set(self.games_played).difference(set(games_w_partner))
+
+            for g_id in p2_games_wo_player_partner:
+                g = Game(g_id)
+                if g.w_team_id in p2.teams:
+                    partners_exclusive_wins += 1
+                
+        if len(p2_games_wo_player_partner) == 0:
+            return None
+
+        return partners_exclusive_wins/len(p2_games_wo_player_partner)
+
+    def partners_error_rate(self):
+        '''
+        Returns the average error rate of the player's partners
+        '''
+        error_rates = []
+        for p_id in self.partner_ids:
+            p = Player(p_id)
+            error_rates += [p.error_rate()]
+        return sum(error_rates)/len(error_rates)
+            
+    def games_played_with_partner(self, partner):
+        '''
+        Returns the games played on the same team as the given partner
+        '''
+        games_in_common = set(self.games_played).intersection(set(partner.games_played))
+        games_w_partner = []
+        for g_common in games_in_common:
+            g = Game(g_common)
+            #find if self and partner were on the same team
+            if (g.w_team_id in self.teams and g.w_team_id in partner.teams) or (g.l_team_id in self.teams and g.l_team_id in partner.teams):
+                games_w_partner.append(g.game_id)
+        return games_w_partner
+
     def third_shot_profile(self):
         '''
         Returns the third shot profile of the player
@@ -128,7 +172,7 @@ class Player():
         print(f"Teams: {[get_team_name(team) for team in self.teams]}")
 
 
-# %% ../nbs/06_player.ipynb 13
+# %% ../nbs/06_player.ipynb 18
 def head_to_head(p1: Player, p2: Player):
     '''
     Returns the results of matches where p1 and p2 have played against each other
