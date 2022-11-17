@@ -22,12 +22,28 @@ class Match:
         self.game_ids = game[game.match_id == self.match_id].game_id.values
         self.games = [Game(game_id) for game_id in self.game_ids]
         self.match = match[match.match_id == self.match_id]
+        self.w_team_id, self.l_team_id, self.w_team_games, self.l_team_games = self.match_team_outcome()
+        self.w_team_name = get_team_name(self.w_team_id)
+        self.l_team_name = get_team_name(self.l_team_id)
+
 
     def __str__(self):
         return "Match({})".format(self.match_id)
     __repr__ = __str__
+
+    def match_team_outcome(self):
+        """
+        returns the winning and losing team ids
+        """
+        d = {self.match.team_id_1.values[0]: 0, self.match.team_id_2.values[0]: 0}
+        for game in self.games:
+            d[game.w_team_id] += 1
+        w_team_id = max(d, key=d.get)
+        l_team_id = min(d, key=d.get)
+        return w_team_id, l_team_id, d[w_team_id], d[l_team_id]
         
     def sumarize_match(self):
+        print("{} won {} games to {} against {}".format(self.w_team_name, self.w_team_games, self.l_team_games, self.l_team_name))
         for game in self.games:
             print(game.summarize_game())
 

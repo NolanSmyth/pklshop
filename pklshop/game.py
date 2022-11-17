@@ -73,5 +73,5 @@ class Game:
         summary_df = pd.DataFrame({'Player': [get_player_name(p_id, self.players) for p_id in self.players.player_id.values]})
         summary_df['Error %'] = [round(self.get_error_rate(p_id)*100,2) for p_id in self.players.player_id.values]
         summary_df['Winner %'] = [round(self.get_winners_rate(p_id)*100,2) for p_id in self.players.player_id.values]
-        print(summary_df)
+        print(summary_df.to_string(index=False))
 
