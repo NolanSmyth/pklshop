@@ -45,5 +45,5 @@ class Match:
     def sumarize_match(self):
         print("{} won {} games to {} against {}".format(self.w_team_name, self.w_team_games, self.l_team_games, self.l_team_name))
         for game in self.games:
-            print(game.summarize_game())
+            game.summarize_game()
 
