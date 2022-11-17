@@ -12,11 +12,12 @@ from .match import *
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# %% ../nbs/07_rally.ipynb 5
+# %% ../nbs/07_rally.ipynb 6
 class Rally:
     def __init__(self, rally_id: str):
         self.rally_id= rally_id
         self.rally = rally[rally.rally_id == rally_id] # todo catch invalid rally number
+        self.rally_len = len(self.rally)
         self.shots = shots[shots.rally_id == rally_id]
         self.xcoords = self.shots.sort_values("shot_nbr").loc_x
         self.ycoords = self.shots.sort_values("shot_nbr").loc_y
@@ -29,18 +30,26 @@ class Rally:
 
     def plot_rally(self):
         y_arr = []
-        c_map_arr = range(len(self.xcoords))
+        n = range(1, len(self.xcoords) + 1)
         for i, y in enumerate(self.ycoords):
             #Reverse the y location of every other shot
             if i % 2 == 0:
                 y_arr.append(y)
             else:
                 y_arr.append(-y) 
-        plt.figure(figsize=(5,5.5))
-        plt.scatter(self.xcoords, y_arr, c=c_map_arr, cmap='Blues')
-        plt.axhline(y=0, color='k')
 
+        plt.figure(figsize=(5,5.5))
+
+        plot_court()
+
+        for xi, yi, txt in zip(self.xcoords, y_arr, n):
+            if len(str(txt)) == 1:
+                size=100
+            else:
+                size=200
+            plt.scatter(xi, yi, marker=f'${txt}$', color='red', s=size, zorder=2)
+        
         plt.xlim(-2.5, 22.5)
         plt.ylim(-24.5, 24.5)
-
-    # todo plot the court and rally appropriately
+    
+        plt.show()
