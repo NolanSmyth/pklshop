@@ -9,6 +9,7 @@ from .stats import *
 from .name import *
 from .game import *
 from .match import *
+from .team import *
 import pandas as pd
 import numpy as np
 
@@ -87,6 +88,21 @@ class Player():
             error_rates += [error_rate]
         return sum(error_rates)/len(error_rates)
     
+    def partner_win_rate(self):
+        '''
+        Returns the win rate of the player's partners
+        '''
+        partner_rates = []
+        for team_id in self.teams:
+            team = Team(team_id)
+            for p_id in team.players:
+              if p_id != self.player_id:
+                p2 = Player(p_id)
+                partner_rates.append(p2.num_games_won/p2.num_games_played)
+
+        return sum(partner_rates)/len(partner_rates)
+        
+    
     def third_shot_profile(self):
         '''
         Returns the third shot profile of the player
@@ -112,7 +128,7 @@ class Player():
         print(f"Teams: {[get_team_name(team) for team in self.teams]}")
 
 
-# %% ../nbs/06_player.ipynb 11
+# %% ../nbs/06_player.ipynb 13
 def head_to_head(p1: Player, p2: Player):
     '''
     Returns the results of matches where p1 and p2 have played against each other
