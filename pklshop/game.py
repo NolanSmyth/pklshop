@@ -20,6 +20,8 @@ class Game:
         self.rally = rally[rally.game_id == game_id]
         self.num_rallies = len(self.rally)
         self.game = game[game.game_id == game_id]
+        shot_mask = [shot.rally_id.values[i] in self.rally.rally_id.values for i in range(len(shot.rally_id.values))]
+        self.shot = shot[shot_mask]
 
         #get the teams and players for this game
         self.w_team_id = self.game[self.game.game_id == self.game_id].w_team_id.values[0]
@@ -117,6 +119,26 @@ class Game:
         Returns the number of errors for a given player in a game up to a given rally number.
         '''
         return sum((self.rally.ending_player_id == player_id) & (self.rally.ending_type == 'Unforced Error') & (self.rally.rally_nbr <= rally_num))
+    
+    def get_errors_forced(self, player_id, rally_num):
+        '''
+        Returns the number of errors forced (on the other team) for a given player in a game up to a given rally number.
+        '''
+        errors_forced = 0
+        for r_id in self.rally.rally_id:
+            if self.rally[self.rally.rally_id == r_id].rally_nbr.values[0] > rally_num: #only use up to rally_num rallies
+                continue
+            curr_shots = self.shot[self.shot.rally_id == r_id]
+            curr_rally = self.rally[self.rally.rally_id == r_id]
+            try:
+                penultimate_shot_nbr = max(curr_shots.shot_nbr) - 1 #2nd to last shot number
+                penultimate_shot_p_id = curr_shots[curr_shots.shot_nbr == penultimate_shot_nbr].player_id.values[0] #player ID of penultimate shot
+            except:
+                continue
+            if penultimate_shot_p_id == player_id and curr_rally.ending_type.values[0] == 'Error': #if player hit a ball that resulted in an error by other team
+                errors_forced += 1
+        
+        return errors_forced
 
     def player_impact_flow(self, rally_num):
         '''
@@ -124,7 +146,7 @@ class Game:
         '''
         impact_flow = {}
         for player_id in self.players.player_id.values:
-            impact_flow[player_id] = self.get_winners(player_id, rally_num) - self.get_unforced_errors(player_id, rally_num)
+            impact_flow[player_id] = self.get_winners(player_id, rally_num) + self.get_errors_forced(player_id, rally_num) - self.get_unforced_errors(player_id, rally_num)
         return impact_flow
     
     def plot_impact_flow(self):
@@ -132,14 +154,14 @@ class Game:
         Plots the impact flow for each player in a given game.
         '''
         impact_arr = np.zeros((4, self.num_rallies))
-        for rally_num in range(1, self.num_rallies+1):
+        for rally_num in range(self.num_rallies+1):
             impact_flow = self.player_impact_flow(rally_num)
-            for i, player_id in enumerate(g.players.player_id.values):
+            for i, player_id in enumerate(self.players.player_id.values):
                 impact_arr[i, rally_num-1] = impact_flow[player_id]
         
-        for i, player_id in enumerate(g.players.player_id.values):
+        for i, player_id in enumerate(self.players.player_id.values):
             plt.plot(impact_arr[i,:], label=get_player_name(player_id))
-        plt.title("Player Impact Flow for Game {}".format(g.game_id))
+        plt.title("Player Impact Flow for Game {}".format(self.game_id))
         plt.xlabel('Rally #')
         plt.legend()
         plt.show()

@@ -183,7 +183,7 @@ class Player():
         return np.mean(game_impacts), np.std(game_impacts)
 
 
-# %% ../nbs/06_player.ipynb 21
+# %% ../nbs/06_player.ipynb 20
 def head_to_head(p1: Player, p2: Player):
     '''
     Returns the results of matches where p1 and p2 have played against each other
