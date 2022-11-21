@@ -9,6 +9,7 @@ from .stats import *
 from .name import *
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # %% ../nbs/04_game.ipynb 7
 class Game:
@@ -164,4 +165,24 @@ class Game:
         plt.xlabel('Rally #')
         plt.legend()
         plt.show()
+
+    def momentum(self):
+        """
+       Returns the "momentum" for a given game at each rally. Defined as net number of rallies won up to that point.
+        """
+
+        w_team_by_rally = self.rally.sort_values(by='rally_nbr').w_team_id.values
+        net = 0
+        momentum = np.zeros(len(w_team_by_rally))
+        for i, team_id in enumerate(w_team_by_rally):
+            if team_id == self.w_team_id:
+                net += 1
+                momentum[i] = net
+            elif team_id == self.l_team_id:
+                net -= 1
+                momentum[i] = net
+            else:
+                pass
+        return momentum
+        
             
