@@ -13,24 +13,24 @@ from .team import *
 import pandas as pd
 import numpy as np
 
-# %% ../nbs/06_player.ipynb 5
+# %% ../nbs/06_player.ipynb 6
 class Player():
-
-    #! it takes too long to initialize players
 
     def __init__(self, player_id: str):
         self.player_id = player_id
         self.name = get_player_name(self.player_id)
         self.teams = self.associated_teams()
+        game_mask = game.w_team_id.isin(self.teams) | game.l_team_id.isin(self.teams)
+        self.game = game[game_mask]
 
         self.matches_played = self.get_matches_played()
         self.num_matches_played = len(self.matches_played)
         self.matches_won = self.get_matches_won()
         self.num_matches_won = len(self.matches_won)
 
-        self.games_played = self.get_games_played()
+        self.games_played = self.game.game_id.values
         self.num_games_played = len(self.games_played)
-        self.games_won = self.get_games_won()
+        self.games_won = self.game[self.game.w_team_id.isin(self.teams)].game_id.values
         self.num_games_won = len(self.games_won)
 
         self.partner_ids = self.associated_partners()
@@ -57,16 +57,6 @@ class Player():
                     partners.append(p_id)
         return partners
     
-    def get_games_played(self):
-        '''
-        Returns the game_ids of games played (in the database) by the player
-        '''
-        gs = []
-        for team_id in self.teams:
-            team_games = game[(game.w_team_id == team_id) | (game.l_team_id == team_id)].game_id.values
-            gs += team_games.tolist()
-        return gs
-    
     def get_matches_played(self):
         '''
         Returns the match_ids of matches played (in the database) by the player
@@ -84,14 +74,6 @@ class Player():
             if m.w_team_id in self.teams:
                 ms += [m_id]
         return ms
-    
-    def get_games_won(self):
-        gs = []
-        for g_id in self.games_played:
-            g = Game(g_id)
-            if g.w_team_id in self.teams:
-                gs += [g_id]
-        return gs
     
     def error_rate(self):
         '''
@@ -180,8 +162,7 @@ class Player():
         game_impacts = np.zeros(len(self.games_played))
         for i, g_id in enumerate(self.games_played):
             g = Game(g_id)
-            impact_flow = g.player_impact_flow(g.num_rallies)
-            game_impacts[i] = impact_flow[self.player_id]
+            game_impacts[i] = g.player_impact_flow(self.player_id, g.num_rallies)
         return np.mean(game_impacts), np.std(game_impacts)
 
 

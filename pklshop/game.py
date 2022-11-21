@@ -9,7 +9,7 @@ from .stats import *
 from .name import *
 import pandas as pd
 
-# %% ../nbs/04_game.ipynb 6
+# %% ../nbs/04_game.ipynb 7
 class Game:
     """
     A class to represent a game of pickleball.
@@ -20,6 +20,8 @@ class Game:
         self.rally = rally[rally.game_id == game_id]
         self.num_rallies = len(self.rally)
         self.game = game[game.game_id == game_id]
+
+        #! initializing games is slow because shot array is large, need to think about how to speed this up
         shot_mask = [shot.rally_id.values[i] in self.rally.rally_id.values for i in range(len(shot.rally_id.values))]
         self.shot = shot[shot_mask]
 
