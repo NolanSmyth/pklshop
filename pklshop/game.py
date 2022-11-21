@@ -8,6 +8,7 @@ from .data import *
 from .stats import *
 from .name import *
 import pandas as pd
+import numpy as np
 
 # %% ../nbs/04_game.ipynb 7
 class Game:
