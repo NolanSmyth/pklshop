@@ -146,4 +146,4 @@ Also check out Connor and
 [this](https://github.com/conner-mcnicholas/pickleball_analysis/)
 analysis by conner-mcnicholas on timeout momentum!
 
-![Fun Vizualizations!](https://github.com/NolanSmyth/pklshop/tree/main/figures/rally.gif)
+![Fun Vizualizations!](figures/rally.gif)
