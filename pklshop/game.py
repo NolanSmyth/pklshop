@@ -140,14 +140,11 @@ class Game:
         
         return errors_forced
 
-    def player_impact_flow(self, rally_num):
+    def player_impact_flow(self, player_id, rally_num):
         '''
-        Returns the impact flow for each player up to a given rally number. Defined as winners - unforced errors.
+        Returns the impact flow for each player up to a given rally number. Defined as winners + errors_forced - unforced errors.
         '''
-        impact_flow = {}
-        for player_id in self.players.player_id.values:
-            impact_flow[player_id] = self.get_winners(player_id, rally_num) + self.get_errors_forced(player_id, rally_num) - self.get_unforced_errors(player_id, rally_num)
-        return impact_flow
+        return self.get_winners(player_id, rally_num) + self.get_errors_forced(player_id, rally_num) - self.get_unforced_errors(player_id, rally_num)
     
     def plot_impact_flow(self):
         '''
@@ -155,9 +152,8 @@ class Game:
         '''
         impact_arr = np.zeros((4, self.num_rallies))
         for rally_num in range(self.num_rallies+1):
-            impact_flow = self.player_impact_flow(rally_num)
             for i, player_id in enumerate(self.players.player_id.values):
-                impact_arr[i, rally_num-1] = impact_flow[player_id]
+                impact_arr[i, rally_num-1] = self.player_impact_flow(player_id, rally_num)
         
         for i, player_id in enumerate(self.players.player_id.values):
             plt.plot(impact_arr[i,:], label=get_player_name(player_id))

@@ -16,19 +16,21 @@ import numpy as np
 # %% ../nbs/06_player.ipynb 5
 class Player():
 
+    #! it takes too long to initialize players
+
     def __init__(self, player_id: str):
         self.player_id = player_id
         self.name = get_player_name(self.player_id)
         self.teams = self.associated_teams()
 
-        self.matches_played = self.matches_played()
+        self.matches_played = self.get_matches_played()
         self.num_matches_played = len(self.matches_played)
-        self.matches_won = self.matches_won()
+        self.matches_won = self.get_matches_won()
         self.num_matches_won = len(self.matches_won)
 
-        self.games_played = self.games_played()
+        self.games_played = self.get_games_played()
         self.num_games_played = len(self.games_played)
-        self.games_won = self.games_won()
+        self.games_won = self.get_games_won()
         self.num_games_won = len(self.games_won)
 
         self.partner_ids = self.associated_partners()
@@ -55,7 +57,7 @@ class Player():
                     partners.append(p_id)
         return partners
     
-    def games_played(self):
+    def get_games_played(self):
         '''
         Returns the game_ids of games played (in the database) by the player
         '''
@@ -65,7 +67,7 @@ class Player():
             gs += team_games.tolist()
         return gs
     
-    def matches_played(self):
+    def get_matches_played(self):
         '''
         Returns the match_ids of matches played (in the database) by the player
         '''
@@ -75,7 +77,7 @@ class Player():
             ms += team_matches.tolist()
         return ms
         
-    def matches_won(self):
+    def get_matches_won(self):
         ms = []
         for m_id in self.matches_played:
             m = Match(m_id)
@@ -83,7 +85,7 @@ class Player():
                 ms += [m_id]
         return ms
     
-    def games_won(self):
+    def get_games_won(self):
         gs = []
         for g_id in self.games_played:
             g = Game(g_id)
@@ -183,7 +185,7 @@ class Player():
         return np.mean(game_impacts), np.std(game_impacts)
 
 
-# %% ../nbs/06_player.ipynb 20
+# %% ../nbs/06_player.ipynb 22
 def head_to_head(p1: Player, p2: Player):
     '''
     Returns the results of matches where p1 and p2 have played against each other
