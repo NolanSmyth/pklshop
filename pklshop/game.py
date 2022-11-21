@@ -106,4 +106,41 @@ class Game:
         
         print(summary_df.to_string(index=False))
 
+    def get_winners(self, player_id, rally_num):
+        '''
+        Returns the number of winners for a given player in a game up to a given rally number.
+        '''
+        return sum((self.rally.ending_player_id == player_id) & (self.rally.ending_type == 'Winner') & (self.rally.rally_nbr <= rally_num))
+        
+    def get_unforced_errors(self, player_id, rally_num):
+        '''
+        Returns the number of errors for a given player in a game up to a given rally number.
+        '''
+        return sum((self.rally.ending_player_id == player_id) & (self.rally.ending_type == 'Unforced Error') & (self.rally.rally_nbr <= rally_num))
+
+    def player_impact_flow(self, rally_num):
+        '''
+        Returns the impact flow for each player up to a given rally number. Defined as winners - unforced errors.
+        '''
+        impact_flow = {}
+        for player_id in self.players.player_id.values:
+            impact_flow[player_id] = self.get_winners(player_id, rally_num) - self.get_unforced_errors(player_id, rally_num)
+        return impact_flow
+    
+    def plot_impact_flow(self):
+        '''
+        Plots the impact flow for each player in a given game.
+        '''
+        impact_arr = np.zeros((4, self.num_rallies))
+        for rally_num in range(1, self.num_rallies+1):
+            impact_flow = self.player_impact_flow(rally_num)
+            for i, player_id in enumerate(g.players.player_id.values):
+                impact_arr[i, rally_num-1] = impact_flow[player_id]
+        
+        for i, player_id in enumerate(g.players.player_id.values):
+            plt.plot(impact_arr[i,:], label=get_player_name(player_id))
+        plt.title("Player Impact Flow for Game {}".format(g.game_id))
+        plt.xlabel('Rally #')
+        plt.legend()
+        plt.show()
             
