@@ -170,9 +170,20 @@ class Player():
         print(f"Games won: {self.num_games_won}")
         print("Percentage of games won: {:.2f}%".format(self.num_games_won/self.num_games_played*100))
         print(f"Teams: {[get_team_name(team) for team in self.teams]}")
+    
+    def overall_player_impact(self):
+        '''
+        Returns the mean and std of player impact taken over all games played in the database
+        '''
+        game_impacts = np.zeros(len(self.games_played))
+        for i, g_id in enumerate(self.games_played):
+            g = Game(g_id)
+            impact_flow = g.player_impact_flow(g.num_rallies)
+            game_impacts[i] = impact_flow[self.player_id]
+        return np.mean(game_impacts), np.std(game_impacts)
 
 
-# %% ../nbs/06_player.ipynb 18
+# %% ../nbs/06_player.ipynb 21
 def head_to_head(p1: Player, p2: Player):
     '''
     Returns the results of matches where p1 and p2 have played against each other
