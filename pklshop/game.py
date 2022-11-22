@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# %% ../nbs/04_game.ipynb 7
+# %% ../nbs/04_game.ipynb 6
 class Game:
     """
     A class to represent a game of pickleball.
@@ -24,7 +24,8 @@ class Game:
         self.game = game[game.game_id == game_id]
 
         #! initializing games is slow because shot array is large, need to think about how to speed this up
-        shot_mask = [shot.rally_id.values[i] in self.rally.rally_id.values for i in range(len(shot.rally_id.values))]
+        # shot_mask = [shot.rally_id.values[i] in self.rally.rally_id.values for i in range(len(shot.rally_id.values))]
+        shot_mask = np.isin(shot.rally_id.values, self.rally.rally_id.values)
         self.shot = shot[shot_mask]
 
         #get the teams and players for this game
