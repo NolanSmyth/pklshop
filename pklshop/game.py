@@ -5,7 +5,6 @@ __all__ = ['Game']
 
 # %% ../nbs/04_game.ipynb 3
 from .data import *
-from .stats import *
 from .name import *
 import pandas as pd
 import numpy as np

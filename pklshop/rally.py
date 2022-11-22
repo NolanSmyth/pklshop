@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['rally', 'players', 'game', 'team', 'match', 'tournament', 'shots', 'shot_type_ref', 'shot_color', 'shot_size',
-           'plot_court', 'ball_travel_distance', 'Rally']
+           'plot_court', 'ball_travel_distance', 'animate', 'Rally']
 
 # %% ../nbs/07_rally.ipynb 3
 from .data import *
@@ -70,6 +70,35 @@ def plot_court():
 
 def ball_travel_distance(x1, y1, x2, y2):
     return ((x1-x2)**2 + (y1-y2)**2)**0.5
+
+def animate(i, ax, fig, position):
+    # erase previous plot
+    ax.cla()
+
+    plot_court()
+    fig.set_facecolor("lightblue")
+
+    # draw point's trajectory
+    ax.plot(
+        position[: i + 1, 0],
+        position[: i + 1, 1],
+        linestyle="-",
+        color="black",
+        alpha=0.2,
+    )
+
+    # draw point's current position
+    ax.plot(
+        position[i, 0],
+        position[i, 1],
+        marker="o",
+        markerfacecolor="yellow",
+        markeredgecolor="yellow",
+    )
+
+    # fix axes limits
+    ax.set_xlim(-2.5, 22.5)
+    ax.set_ylim(-25, 25)
 
 # %% ../nbs/07_rally.ipynb 6
 class Rally:
@@ -146,3 +175,35 @@ class Rally:
         # plt.savefig("../figures/rally.png", facecolor=fig.get_facecolor())
 
         plt.show()
+
+    def animate_rally(self):
+        N = 100
+        speed_fac = 3
+
+        xposinterp = np.array(
+            [
+                np.linspace(self.xcoords[i], self.xcoords[i + 1], int(N / speed_fac))
+                for i in range(len(self.xcoords) - 1)
+            ]
+        ).flatten()
+        yposinterp = np.array(
+            [
+                np.linspace(
+                    self.ycoords_flipped[i], self.ycoords_flipped[i + 1], int(N / speed_fac)
+                )
+                for i in range(len(self.ycoords_flipped) - 1)
+            ]
+        ).flatten()
+        position = np.array([xposinterp, yposinterp]).T
+
+        # generate figure and axis
+        fig, ax = plt.subplots(figsize=(5, 5))
+
+        n_frames = len(xposinterp)
+        # define the animation
+        ani = FuncAnimation(fig=fig, func=animate, interval=20, frames=n_frames, fargs=(ax, fig, position))
+
+        # show the animation
+        # plt.show()
+        ani.save("../figures/rally.gif", writer="pillow")
+    

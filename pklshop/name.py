@@ -8,7 +8,6 @@ __all__ = ['rally', 'players', 'game', 'team', 'match', 'shot', 'tournament', 'g
 from .data import *
 import pandas as pd
 
-
 # %% ../nbs/02_name.ipynb 4
 #! Need to think about how to store these tables so that functions can use them
 #! but don't want to have to pass specific tables every time
@@ -56,7 +55,8 @@ def get_player_id(player_name: str, player_df: pd.DataFrame = players) -> str:
     Returns the player_id of the player with player_name
     Optionally pass a player_df to use a different table
     '''
-    if player_name in player_df.first_nm.values + " " + player_df.last_nm.values:
-        return player_df[(player_df.first_nm + " " + player_df.last_nm) == player_name].player_id.values[0]
+    full_names = player_df.first_nm.values + " " + player_df.last_nm.values
+    if player_name in full_names:
+        return full_names[full_names == player_name][0]
     else:
         raise ValueError(f"player_name \"{player_name}\" not found in player_df")

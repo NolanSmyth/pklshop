@@ -5,7 +5,6 @@ __all__ = ['Team']
 
 # %% ../nbs/08_team.ipynb 3
 from .data import *
-from .stats import *
 from .name import *
 from .game import *
 from .match import *

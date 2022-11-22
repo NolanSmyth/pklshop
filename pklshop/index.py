@@ -6,3 +6,4 @@ __all__ = []
 # %% ../nbs/index.ipynb 9
 from .data import *
 from .game import *
+from .rally import *

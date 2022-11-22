@@ -42,6 +42,7 @@ table_names
 
 ``` python
 match_df = get_tab_as_df("match")
+game_df = get_tab_as_df("game")
 match_df.head()
 ```
 
@@ -139,11 +140,23 @@ match_df.head()
 </table>
 </div>
 
+``` python
+g = Game("G1")
+g.summarize_game()
+```
+
+    Anna Leigh Waters & Leigh Waters beat Jesse Irvine & Catherine Parenteau 12-10 in game G1
+                    Player  Error %  Winner %
+    0         Jesse Irvine    17.46      9.52
+    1  Catherine Parenteau     1.59      0.00
+    2    Anna Leigh Waters     1.59      3.17
+    3         Leigh Waters     9.52      4.76
+
 To see a more complete analysis in action, check out the
 [examples](https://github.com/NolanSmyth/pklshop/tree/main/examples).
-You can see all the available functionality by looking at the [notebooks](https://github.com/NolanSmyth/pklshop/tree/main/nbs)
 Also check out Connor and
 [this](https://github.com/conner-mcnicholas/pickleball_analysis/)
 analysis by conner-mcnicholas on timeout momentum!
 
-![Fun Vizualizations!](figures/rally.gif)
+r = Rally(“R1020”) r.animate_rally() ![Fun
+Vizualizations!](figures/rally.gif)

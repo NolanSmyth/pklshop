@@ -4,5 +4,10 @@ website:
       - index.ipynb
       - 00_connect.ipynb
       - 01_data.ipynb
-      - 02_stats.ipynb
-      - 03_game.ipynb
+      - 02_name.ipynb
+      - 03_stats.ipynb
+      - 04_game.ipynb
+      - 05_match.ipynb
+      - 06_player.ipynb
+      - 07_rally.ipynb
+      - 08_team.ipynb

@@ -5,7 +5,6 @@ __all__ = ['Player', 'head_to_head']
 
 # %% ../nbs/06_player.ipynb 3
 from .data import *
-from .stats import *
 from .name import *
 from .game import *
 from .match import *
