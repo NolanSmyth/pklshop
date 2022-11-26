@@ -5,6 +5,8 @@ __all__ = ['table_names', 'get_tab_as_df']
 
 # %% ../nbs/01_data.ipynb 3
 from .connect import *
+import pkgutil
+
 
 # %% ../nbs/01_data.ipynb 4
 table_names = ["tournament", "match", "game", "rally", "shot_type_ref", "shot", "player", "team",]

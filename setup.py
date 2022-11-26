@@ -79,6 +79,6 @@ setuptools.setup(
         "console_scripts": cfg.get("console_scripts", "").split(),
         "nbdev": [f'{cfg.get("lib_path")}={cfg.get("lib_path")}._modidx:d'],
     },
-    include_package_data=True,
-    package_data={"": ["datasets/*.csv"]} ** setup_cfg,
+    package_data={"": ["datasets/*.csv"]},
+    **setup_cfg,
 )
