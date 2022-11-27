@@ -17,9 +17,17 @@ pip install pklshop
 
 ## How to use
 
-First, you’ll need to setup a `database.ini` file (it’s only about 5
-lines). This should be stored in the `pklshop` root directory. Check out
-`connect` for an example of how to write this.
+This package includes the latest pickleball data from pklmart already
+convieniently loaded into a pandas dataframe. You can access this data
+by importing the `pklshop.data` module using:
+
+``` python
+from pklshop.data import *
+```
+
+(Note that since this package is writen using
+[nbdev](https://nbdev.fast.ai/) it is safe to wildcard import because
+the `__all__` variable is automatically generated for each module.)
 
 Once that’s done, this lib provides a function
 [`get_tab_as_df`](https://NolanSmyth.github.io/pklshop/data.html#get_tab_as_df)
@@ -41,9 +49,7 @@ table_names
      'team']
 
 ``` python
-match_df = get_tab_as_df("match")
-game_df = get_tab_as_df("game")
-match_df.head()
+match.head()
 ```
 
 <div>
@@ -155,8 +161,6 @@ g.summarize_game()
 ``` python
 g.plot_impact_flow()
 ```
-
-![](index_files/figure-commonmark/cell-5-output-1.png)
 
 To see a more complete analysis in action, check out the
 [examples](https://github.com/NolanSmyth/pklshop/tree/main/examples).
