@@ -9,7 +9,7 @@ from .name import *
 from .game import *
 import pandas as pd
 
-# %% ../nbs/05_match.ipynb 6
+# %% ../nbs/05_match.ipynb 7
 #! I think game should inherit players and teams from match
 class Match:
     """
