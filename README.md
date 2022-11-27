@@ -146,11 +146,15 @@ g.summarize_game()
 ```
 
     Anna Leigh Waters & Leigh Waters beat Jesse Irvine & Catherine Parenteau 12-10 in game G1
-                    Player  Error %  Winner %
-    0         Jesse Irvine    17.46      9.52
-    1  Catherine Parenteau     1.59      0.00
-    2    Anna Leigh Waters     1.59      3.17
-    3         Leigh Waters     9.52      4.76
+                 Player  Error %  Winner %
+           Jesse Irvine    17.46      9.52
+    Catherine Parenteau     1.59      0.00
+      Anna Leigh Waters     1.59      3.17
+           Leigh Waters     9.52      4.76
+
+``` python
+g.plot_impact_flow()
+```
 
 To see a more complete analysis in action, check out the
 [examples](https://github.com/NolanSmyth/pklshop/tree/main/examples).

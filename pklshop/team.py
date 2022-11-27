@@ -11,7 +11,7 @@ from .match import *
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# %% ../nbs/08_team.ipynb 5
+# %% ../nbs/08_team.ipynb 4
 class Team:
     def __init__(self, team_id: str):
         self.team_id = team_id

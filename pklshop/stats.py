@@ -4,14 +4,14 @@
 __all__ = ['team_first_serve_win_frac', 'get_first_serve_team', 'get_frac_first_serve_wins', 'get_teams_from_player',
            'team_win_frac', 'games_played_by_team']
 
-# %% ../nbs/03_stats.ipynb 3
+# %% ../nbs/03_stats.ipynb 4
 from .data import *
 from .name import *
 from .team import *
 from .game import *
 from .player import *
 
-# %% ../nbs/03_stats.ipynb 7
+# %% ../nbs/03_stats.ipynb 6
 def team_first_serve_win_frac(team_id):
     '''
     Takes a team id and returns that team's first serve win fraction.
@@ -26,7 +26,7 @@ def team_first_serve_win_frac(team_id):
     else:
         return num_first_serve_games_won/num_first_serves
 
-# %% ../nbs/03_stats.ipynb 12
+# %% ../nbs/03_stats.ipynb 11
 def get_first_serve_team(game_id: str):
     '''
     Returns the team_id of the team that served first for a given game with game_id.
@@ -43,7 +43,7 @@ def get_frac_first_serve_wins(game_df):
             count +=1 
     return count/len(game_df)
 
-# %% ../nbs/03_stats.ipynb 15
+# %% ../nbs/03_stats.ipynb 14
 def get_teams_from_player(player_id: str):
     '''
     Returns the team_ids of the teams that a player with player_id played for.
