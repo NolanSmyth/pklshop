@@ -45,6 +45,32 @@ table_names
      'team']
 
 ``` python
+print(type(team))
+team.columns
+```
+
+    <class 'pandas.core.frame.DataFrame'>
+
+    Index(['team_id', 'player_id', 'player_seq_nbr', 'team_nm', 'maint_dtm',
+           'maint_app', 'create_dtm', 'create_app'],
+          dtype='object')
+
+There are also built-in classes to help you analyze the data. For
+example, you can use the
+[`Player`](https://NolanSmyth.github.io/pklshop/player.html#player)
+class to get a player’s stats or attributes:
+
+``` python
+p = Player("P1")
+p2 = Player("P2")
+head_to_head(p,p2)
+```
+
+    Jesse Irvine has played against Catherine Parenteau in 1 matches and has won 1 times
+
+And likewise for Games, Teams, Matches, and Rallys. e.g.:
+
+``` python
 g = Game("G1")
 g.summarize_game()
 ```
@@ -60,10 +86,12 @@ g.summarize_game()
 g.plot_impact_flow()
 ```
 
-![](index_files/figure-commonmark/cell-4-output-1.png)
+![](index_files/figure-commonmark/cell-6-output-1.png)
 
 To see a more complete analysis in action, check out the
 [examples](https://github.com/NolanSmyth/pklshop/tree/main/examples).
+For more details, look at the source notebooks in the
+[nbs](https://github.com/NolanSmyth/pklshop/tree/main/nbs) directory.
 Also check out Connor and
 [this](https://github.com/conner-mcnicholas/pickleball_analysis/)
 analysis by conner-mcnicholas on timeout momentum!

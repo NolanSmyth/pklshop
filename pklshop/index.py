@@ -7,3 +7,4 @@ __all__ = []
 from .data import *
 from .game import *
 from .rally import *
+from .player import*

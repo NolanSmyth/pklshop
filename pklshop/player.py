@@ -178,8 +178,8 @@ def head_to_head(p1: Player, p2: Player):
     for m_id in p1_matches:
         if m_id in p2_matches:
             m = Match(m_id)
-            if (p.name in m.w_team_name and p2.name in m.l_team_name):
+            if (p1.name in m.w_team_name and p2.name in m.l_team_name):
                 p1_count += 1
-            elif (p.name in m.l_team_name and p2.name in m.w_team_name):
+            elif (p1.name in m.l_team_name and p2.name in m.w_team_name):
                 p2_count += 1
     print(f"{p1.name} has played against {p2.name} in {p1_count + p2_count} matches and has won {p1_count} times")
