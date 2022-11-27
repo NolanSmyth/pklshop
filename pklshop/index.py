@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = []
 
-# %% ../nbs/index.ipynb 9
+# %% ../nbs/index.ipynb 8
 from .data import *
 from .game import *
 from .rally import *
