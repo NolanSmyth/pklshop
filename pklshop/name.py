@@ -8,43 +8,52 @@ from .data import *
 import pandas as pd
 
 # %% ../nbs/02_name.ipynb 4
-def get_team_name(team_id: str) -> str:
+def get_team_name(team_id: str, team_df: pd.DataFrame = None) -> str:
     '''
     Returns the name of the team with team_id
     Optionally pass a team_df to use a different table
     '''
+    if team_df is None:
+        team_df = team
     if team_id in team.team_id.values:
-        return team[team.team_id == team_id].team_nm.values[0]
+        return team_df[team_df.team_id == team_id].team_nm.values[0]
     else:
         raise ValueError(f"team_id \"{team_id}\" not found in team_df")
 
-def get_team_id(team_name: str) -> str:
+def get_team_id(team_name: str, team_df: pd.DataFrame = None) -> str:
     '''
     Returns the team_id of the team with team_name
     Optionally pass a team_df to use a different table
     '''
+    if team_df is None:
+        team_df = team
     if team_name in team.team_nm.values:
-        return team[team.team_nm == team_name].team_id.values[0]
+        return team_df[team_df.team_nm == team_name].team_id.values[0]
     else:
         raise ValueError(f"team_name \"{team_name}\" not found in team_df")
 
-def get_player_name(player_id: str) -> str:
+def get_player_name(player_id: str, players_df: pd.DataFrame = None) -> str:
     '''
     Returns the name of the player with player_id
     Optionally pass a player_df to use a different table
     '''
+    if players_df is None:
+        players_df = players
     if player_id in players.player_id.values:
-        return players[players.player_id == player_id].first_nm.values[0] + " " + players[players.player_id == player_id].last_nm.values[0]
+        return players_df[players_df.player_id == player_id].first_nm.values[0] + " " + players_df[players_df.player_id == player_id].last_nm.values[0]
     else:
         raise ValueError(f"player_id \"{player_id}\" not found in player_df")
 
-def get_player_id(player_name: str) -> str:
+def get_player_id(player_name: str, players_df: pd.DataFrame = None ) -> str:
     '''
     Returns the player_id of the player with player_name
     Optionally pass a player_df to use a different table
     '''
-    full_names = players.first_nm.values + " " + players.last_nm.values
+    if players_df is None:
+        players_df = players
+
+    full_names = players_df.first_nm.values + " " + players_df.last_nm.values
     if player_name in full_names:
-        return players[(players.first_nm + " " + players.last_nm) == player_name].player_id.values[0]
+        return players_df[(players_df.first_nm + " " + players_df.last_nm) == player_name].player_id.values[0]
     else:
         raise ValueError(f"player_name \"{player_name}\" not found in player_df")
