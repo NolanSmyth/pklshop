@@ -89,6 +89,9 @@ def animate(i, ax, fig, position):
 
 # %% ../nbs/07_rally.ipynb 5
 class Rally:
+    """
+    A class to represent a rally
+    """
     def __init__(self, rally_id: str):
         self.rally_id= rally_id
         self.rally = rally[rally.rally_id == rally_id] # todo catch invalid rally number

@@ -57,7 +57,7 @@ def team_win_frac(team_id: str):
     t = Team(team_id)
     return t.num_games_won/t.num_games_played
 
-# %% ../nbs/03_stats.ipynb 18
+# %% ../nbs/03_stats.ipynb 17
 def games_played_by_team(team_id):
     '''
     Returns the number of games played by a team with team_id.

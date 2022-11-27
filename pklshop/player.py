@@ -12,7 +12,7 @@ from .team import *
 import pandas as pd
 import numpy as np
 
-# %% ../nbs/06_player.ipynb 5
+# %% ../nbs/06_player.ipynb 4
 class Player():
 
     def __init__(self, player_id: str):
@@ -165,7 +165,7 @@ class Player():
         return np.mean(game_impacts), np.std(game_impacts)
 
 
-# %% ../nbs/06_player.ipynb 21
+# %% ../nbs/06_player.ipynb 14
 def head_to_head(p1: Player, p2: Player):
     '''
     Returns the results of matches where p1 and p2 have played against each other
