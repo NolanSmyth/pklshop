@@ -14,6 +14,9 @@ import numpy as np
 
 # %% ../nbs/06_player.ipynb 4
 class Player():
+    '''
+    A class to represent a player
+    '''
 
     def __init__(self, player_id: str):
         self.player_id = player_id
@@ -38,13 +41,13 @@ class Player():
         return f"{self.name}, id: {self.player_id}"
     __repr__ = __str__
 
-    def associated_teams(self):
+    def associated_teams(self) -> list[str]:
         '''
         Returns the team_ids of the teams that the player played for.
         '''
         return team[team.player_id == self.player_id].team_id.values
     
-    def associated_partners(self):
+    def associated_partners(self) -> list[str]:
         '''
         Returns the player_ids of the players that the player has played with
         '''
@@ -56,7 +59,7 @@ class Player():
                     partners.append(p_id)
         return partners
     
-    def get_matches_played(self):
+    def get_matches_played(self) -> list[str]:
         '''
         Returns the match_ids of matches played (in the database) by the player
         '''
@@ -66,7 +69,7 @@ class Player():
             ms += team_matches.tolist()
         return ms
         
-    def get_matches_won(self):
+    def get_matches_won(self) -> list[str]:
         ms = []
         for m_id in self.matches_played:
             m = Match(m_id)
@@ -74,7 +77,7 @@ class Player():
                 ms += [m_id]
         return ms
     
-    def error_rate(self):
+    def error_rate(self) -> float:
         '''
         Returns the error rate of the player accross all games played
         '''
@@ -85,7 +88,7 @@ class Player():
             error_rates += [error_rate]
         return sum(error_rates)/len(error_rates)
     
-    def partners_win_rate(self):
+    def partners_win_rate(self) -> float:
         '''
         Returns the win rate of the player's partners excluding games where the player was on the same team as their partner
         '''
@@ -107,7 +110,7 @@ class Player():
 
         return partners_exclusive_wins/len(p2_games_wo_player_partner)
 
-    def partners_error_rate(self):
+    def partners_error_rate(self) -> float:
         '''
         Returns the average error rate of the player's partners
         '''
@@ -117,7 +120,7 @@ class Player():
             error_rates += [p.error_rate()]
         return sum(error_rates)/len(error_rates)
             
-    def games_played_with_partner(self, partner):
+    def games_played_with_partner(self, partner) -> list[str]:
         '''
         Returns the games played on the same team as the given partner
         '''
@@ -154,9 +157,10 @@ class Player():
         print("Percentage of games won: {:.2f}%".format(self.num_games_won/self.num_games_played*100))
         print(f"Teams: {[get_team_name(team) for team in self.teams]}")
     
-    def overall_player_impact(self):
+    def overall_player_impact(self) -> tuple[float, float]:
         '''
-        Returns the mean and std of player impact taken over all games played in the database
+        Returns the mean and std of player impact taken over all games played in the database. 
+        Player impact is defined as winners + errors forced - unforced errors
         '''
         game_impacts = np.zeros(len(self.games_played))
         for i, g_id in enumerate(self.games_played):
@@ -165,8 +169,8 @@ class Player():
         return np.mean(game_impacts), np.std(game_impacts)
 
 
-# %% ../nbs/06_player.ipynb 14
-def head_to_head(p1: Player, p2: Player):
+# %% ../nbs/06_player.ipynb 12
+def head_to_head(p1: Player, p2: Player) -> None:
     '''
     Returns the results of matches where p1 and p2 have played against each other
     '''

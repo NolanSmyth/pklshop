@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # %% ../nbs/07_rally.ipynb 4
-#Turn this into dict?
+# todo Turn this into dict or enum?
 def shot_color(shot_type: str) -> str:
     if shot_type == "SE":
         return "green"
@@ -34,28 +34,32 @@ def shot_size(shot_num: int) -> int:
         size=200
     return size
 
-def plot_court():
+def plot_court() -> None:
+    '''
+    Plots the empty pickleball court
+    '''
 
-        # Draw the court and non-volley zone
-        plt.fill_between([0, 20], [-22, -22], [22, 22], color='darkblue', alpha=0.5)
-        plt.fill_between([0, 20], [-7, -7], [7, 7], color='green', alpha=0.5)
+    # Draw the court and non-volley zone
+    plt.fill_between([0, 20], [-22, -22], [22, 22], color='darkblue', alpha=0.5)
+    plt.fill_between([0, 20], [-7, -7], [7, 7], color='green', alpha=0.5)
 
-        #Draw lines
-        plt.plot([10, 10], [7.1, 22], color='white', linestyle='-', linewidth=1.5)
-        plt.plot([10, 10], [-7.1, -22], color='white', linestyle='-', linewidth=1.5)
-        plt.plot([0, 0], [-22, 22], color='white', linestyle='-', linewidth=2)
-        plt.plot([20, 20], [-22, 22], color='white', linestyle='-', linewidth=2)
-        plt.plot([0, 20], [22, 22], color='white', linestyle='-', linewidth=2)
-        plt.plot([0, 20], [-22, -22], color='white', linestyle='-', linewidth=2)
-        plt.plot([0, 20], [7, 7], color='white', linestyle='-', linewidth=2)
-        plt.plot([0, 20], [-7, -7], color='white', linestyle='-', linewidth=2)
+    #Draw lines
+    plt.plot([10, 10], [7.1, 22], color='white', linestyle='-', linewidth=1.5)
+    plt.plot([10, 10], [-7.1, -22], color='white', linestyle='-', linewidth=1.5)
+    plt.plot([0, 0], [-22, 22], color='white', linestyle='-', linewidth=2)
+    plt.plot([20, 20], [-22, 22], color='white', linestyle='-', linewidth=2)
+    plt.plot([0, 20], [22, 22], color='white', linestyle='-', linewidth=2)
+    plt.plot([0, 20], [-22, -22], color='white', linestyle='-', linewidth=2)
+    plt.plot([0, 20], [7, 7], color='white', linestyle='-', linewidth=2)
+    plt.plot([0, 20], [-7, -7], color='white', linestyle='-', linewidth=2)
 
-        #Draw net
-        plt.plot([-0.5, 20.5], [0, 0], color='black', linestyle='-', linewidth=2)
+    #Draw net
+    plt.plot([-0.5, 20.5], [0, 0], color='black', linestyle='-', linewidth=2)
 
-        plt.axis('off')
+    plt.axis('off')
 
-def ball_travel_distance(x1, y1, x2, y2):
+def ball_travel_distance(x1: float, y1: float, x2: float, y2: float) -> float:
+    ''' Returns the distance between two points'''
     return ((x1-x2)**2 + (y1-y2)**2)**0.5
 
 def animate(i, ax, fig, position):
@@ -114,7 +118,8 @@ class Rally:
         return f"Rally {self.rally_id}"
     __repr__ = __str__
 
-    def flip_y(self):
+    def flip_y(self) -> list[float]:
+        ''' Flips the y coordinates of every other shot so that the coordinates accurately reflect the overall court'''
         y_arr = []
         for i, y in enumerate(self.ycoords):
             #Reverse the y location of every other shot
@@ -124,20 +129,22 @@ class Rally:
                 y_arr.append(-y) 
         return y_arr
     
-    def get_ball_travel_dists(self):
+    def get_ball_travel_dists(self) -> list[float]:
+        ''' Returns a list of the distances traveled by the ball between each shot'''
         dists = []
         for i in range(len(self.xcoords)-1):
             dists.append(ball_travel_distance(self.xcoords[i], self.ycoords_flipped[i], self.xcoords[i+1], self.ycoords_flipped[i+1]))
         return dists
     
-    def get_ball_travel_times(self):
+    def get_ball_travel_times(self) -> list[float]:
+        ''' Returns a list of the times between each shot'''
         times = []
         for i in range(len(self.xcoords)-1):
             times.append(float(self.shot.btt_after.iloc[i]))
         return times
 
-    def plot_rally(self):
-
+    def plot_rally(self) -> None:
+        ''' Plots the rally'''
         n = range(1, len(self.xcoords) + 1)
         fig = plt.figure(figsize=(5,5.5))
 
@@ -166,7 +173,8 @@ class Rally:
 
         plt.show()
 
-    def animate_rally(self):
+    def animate_rally(self) -> None:
+        ''' Animates the rally and saves it as a gif in the figures directory'''
         N = 100
         speed_fac = 3
 

@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# %% ../nbs/04_game.ipynb 5
+# %% ../nbs/04_game.ipynb 6
 class Game:
     """
     A class to represent a game of pickleball.
@@ -22,8 +22,6 @@ class Game:
         self.num_rallies = len(self.rally)
         self.game = game[game.game_id == game_id]
 
-        #! initializing games is slow because shot array is large, need to think about how to speed this up
-        # shot_mask = [shot.rally_id.values[i] in self.rally.rally_id.values for i in range(len(shot.rally_id.values))]
         shot_mask = np.isin(shot.rally_id.values, self.rally.rally_id.values)
         self.shot = shot[shot_mask]
 
@@ -47,33 +45,36 @@ class Game:
         return "Game({})".format(self.game_id)
     __repr__ = __str__
 
-    def get_error_rate(self, player_id:str):
+    def get_error_rate(self, player_id:str) -> float:
         """
         Returns the error rate for a given player in a game.
         """
         num_unforced_errors = sum((self.rally.ending_player_id == player_id) & ((self.rally.ending_type == 'Unforced Error') | (self.rally.ending_type == 'Error')))
         return num_unforced_errors/self.num_rallies
     
-    def get_winners_rate(self, player_id:str):
+    def get_winners_rate(self, player_id:str) -> float:
         """
         Returns the number of winners for a given player in a game.
         """
         return sum((self.rally.ending_player_id == player_id) & (self.rally.ending_type == 'Winner'))/self.num_rallies
 
-    def first_serve_team(self):
+    def first_serve_team(self) -> str:
         '''
         Returns the team_id of the team that served first for a given game with game_id.
         '''
         return self.rally[self.rally.rally_nbr == 1].srv_team_id.values[0]
 
-    def first_serve_team_name(self):
+    def first_serve_team_name(self) -> str:
         '''
         Returns the team_id of the team that served first for a given game with game_id.
         '''
         first_team_id = self.first_serve_team()
         return self.get_team_name(first_team_id)
         
-    def summarize_game(self):
+    def summarize_game(self) -> None:
+        '''
+        Prints a summary of the game.
+        '''
         print("{} beat {} {}-{} in game {}".format(self.w_team_name, self.l_team_name, self.score_w, self.score_l, self.game_id))
 
         summary_df = pd.DataFrame({'Player': [get_player_name(p_id, self.players) for p_id in self.players.player_id.values]})
@@ -81,9 +82,9 @@ class Game:
         summary_df['Winner %'] = [round(self.get_winners_rate(p_id)*100,2) for p_id in self.players.player_id.values]
         print(summary_df.to_string(index=False))
     
-    def player_third_shots(self, player_id):
+    def player_third_shots(self, player_id) -> tuple[int, int, int, int]:
         '''
-        Summarizes the types of 3rd shots for a given player in a game
+        Gets the number of eachtype of 3rd shot for a given player in a game
         '''
         player_thirds = self.rally[self.rally.ts_player_id == player_id]
         num_drops = sum(player_thirds.ts_type == 'Drop')
@@ -93,7 +94,7 @@ class Game:
 
         return num_drops, num_drives, num_lobs, num_thirds
         
-    def summarize_third_shots(self):
+    def summarize_third_shots(self) -> None:
         '''
         Summarizes the types of 3rd shots for each player in a game
         '''
@@ -112,19 +113,19 @@ class Game:
         
         print(summary_df.to_string(index=False))
 
-    def get_winners(self, player_id, rally_num):
+    def get_winners(self, player_id: str, rally_num: int) -> int:
         '''
         Returns the number of winners for a given player in a game up to a given rally number.
         '''
         return sum((self.rally.ending_player_id == player_id) & (self.rally.ending_type == 'Winner') & (self.rally.rally_nbr <= rally_num))
         
-    def get_unforced_errors(self, player_id, rally_num):
+    def get_unforced_errors(self, player_id: str, rally_num: int) -> int:
         '''
         Returns the number of errors for a given player in a game up to a given rally number.
         '''
         return sum((self.rally.ending_player_id == player_id) & (self.rally.ending_type == 'Unforced Error') & (self.rally.rally_nbr <= rally_num))
     
-    def get_errors_forced(self, player_id, rally_num):
+    def get_errors_forced(self, player_id: str, rally_num: int) -> int:
         '''
         Returns the number of errors forced (on the other team) for a given player in a game up to a given rally number.
         '''
@@ -144,15 +145,15 @@ class Game:
         
         return errors_forced
 
-    def player_impact_flow(self, player_id, rally_num):
+    def player_impact_flow(self, player_id: str, rally_num: int) -> int:
         '''
         Returns the impact flow for each player up to a given rally number. Defined as winners + errors_forced - unforced errors.
         '''
         return self.get_winners(player_id, rally_num) + self.get_errors_forced(player_id, rally_num) - self.get_unforced_errors(player_id, rally_num)
     
-    def plot_impact_flow(self):
+    def plot_impact_flow(self) -> None:
         '''
-        Plots the impact flow for each player in a given game.
+        Plots the impact flow for each player in a given game. Defined as winners + errors_forced - unforced errors.
         '''
         impact_arr = np.zeros((4, self.num_rallies))
         for rally_num in range(self.num_rallies+1):
@@ -166,7 +167,7 @@ class Game:
         plt.legend()
         plt.show()
 
-    def momentum(self):
+    def momentum(self) -> int:
         """
        Returns the "momentum" for a given game at each rally. Defined as net number of rallies won up to that point.
         """

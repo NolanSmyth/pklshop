@@ -18,8 +18,8 @@ pip install pklshop
 ## How to use
 
 This package includes the latest pickleball data from pklmart already
-convieniently loaded into a pandas dataframe. You can access this data
-by importing the `pklshop.data` module using:
+convieniently loaded into pandas dataframes. You can access this data by
+importing the `pklshop.data` module using:
 
 ``` python
 from pklshop.data import *
@@ -29,7 +29,7 @@ from pklshop.data import *
 [nbdev](https://nbdev.fast.ai/) it is safe to wildcard import because
 the `__all__` variable is automatically generated for each module.)
 
-Available tables are:
+Available dataframes are:
 
 ``` python
 table_names

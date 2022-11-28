@@ -3,12 +3,12 @@
 # %% auto 0
 __all__ = ['config', 'DbConnection']
 
-# %% ../nbs/00_connect.ipynb 3
+# %% ../nbs/00_connect.ipynb 4
 from configparser import ConfigParser
 import psycopg2
 import pandas as pd
 
-# %% ../nbs/00_connect.ipynb 4
+# %% ../nbs/00_connect.ipynb 5
 def config(filename="../database.ini", section="postgresql"):
     """Reads the database.ini file and returns the connection parameters as a dictionary.
     Assumes the ini file is in the parent directory"""
@@ -31,7 +31,7 @@ def config(filename="../database.ini", section="postgresql"):
         
     return db
 
-# %% ../nbs/00_connect.ipynb 10
+# %% ../nbs/00_connect.ipynb 11
 class DbConnection:
     "Class to create a connection to the database"
     def __init__(self, 

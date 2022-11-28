@@ -13,7 +13,7 @@ import pandas as pd
 #! I think game should inherit players and teams from match
 class Match:
     """
-    A class to represent a game of pickleball.
+    A class to represent a match of pickleball.
     """
     def __init__(self, match_id:str):
         #Create dfs for this match
@@ -30,9 +30,9 @@ class Match:
         return "Match({})".format(self.match_id)
     __repr__ = __str__
 
-    def match_team_outcome(self):
+    def match_team_outcome(self) -> tuple[str, str, int, int]:
         """
-        returns the winning and losing team ids
+        returns the winning and losing team ids and the number of games won by each team
         """
         d = {self.match.team_id_1.values[0]: 0, self.match.team_id_2.values[0]: 0}
         for game in self.games:
@@ -41,7 +41,10 @@ class Match:
         l_team_id = min(d, key=d.get)
         return w_team_id, l_team_id, d[w_team_id], d[l_team_id]
         
-    def sumarize_match(self):
+    def sumarize_match(self) -> None:
+        """
+        prints a summary by calling the sumarize_game method for each game in the match
+        """
         print("{} won {} games to {} against {}".format(self.w_team_name, self.w_team_games, self.l_team_games, self.l_team_name))
         for game in self.games:
             game.summarize_game()

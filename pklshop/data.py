@@ -2,18 +2,18 @@
 
 # %% auto 0
 __all__ = ['table_names', 'table_dict', 'rally', 'players', 'game', 'team', 'match', 'shot', 'tournament', 'load_dfs_from_csv',
-           'get_tab_as_df']
+           'get_tab_as_df', 'database_tables_to_csv']
 
-# %% ../nbs/01_data.ipynb 3
+# %% ../nbs/01_data.ipynb 4
 from .connect import *
 import pkgutil
 from io import BytesIO
 import pandas as pd
 
-# %% ../nbs/01_data.ipynb 4
+# %% ../nbs/01_data.ipynb 5
 table_names = ["tournament", "match", "game", "rally", "shot_type_ref", "shot", "player", "team",]
 
-# %% ../nbs/01_data.ipynb 6
+# %% ../nbs/01_data.ipynb 8
 #This is a function to get the dataframes from the csv files
 def load_dfs_from_csv():
     "Returns a dictionary of dataframes from the table csv files"
@@ -34,7 +34,7 @@ match = table_dict["match"]
 shot = table_dict["shot"]
 tournament = table_dict["tournament"]
 
-# %% ../nbs/01_data.ipynb 8
+# %% ../nbs/01_data.ipynb 10
 def get_tab_as_df(table_name:str):
     "Returns a pandas dataframe for a given table"
     if not isinstance(table_name, str):
@@ -45,3 +45,11 @@ def get_tab_as_df(table_name:str):
     conn = DbConnection(params)
     df = conn.pull_data(table_name)
     return df
+
+# %% ../nbs/01_data.ipynb 14
+#Pull data from the database and save it to csv files. Only need to do this when the datbase is updated.
+def database_tables_to_csv():
+    "Saves the dataframes to csv files"
+    for table_name in table_names:
+        df = get_tab_as_df(table_name)
+        df.to_csv(f"datasets/{table_name}.csv", index=False)
