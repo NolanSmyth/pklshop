@@ -116,7 +116,7 @@ class Game:
         
         print(summary_df.to_string(index=False))
 
-    def third_success_rate(self, ts_type: str) -> tuple[int, int]:
+    def third_success(self, ts_type: str) -> tuple[int, int]:
         '''
         Returns the number of 3rd shots of a given type in a game and the number of those shots that were successful, defined
         as resulting in a rally win for the serving team.
