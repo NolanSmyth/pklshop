@@ -1,0 +1,4 @@
+analysis ideas: 
+
+* Serve placement/speed error rate vs points won
+* Analyze third shots assuming they make it over the net

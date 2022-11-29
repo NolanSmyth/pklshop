@@ -129,6 +129,19 @@ class Game:
         num_ts = len(ts_rallies)
         num_success = sum(ts_rallies.srv_team_id == ts_rallies.w_team_id)
         return num_ts, num_success
+    
+    def third_errors(self, ts_type: str) -> tuple[int, int]:
+        '''
+        Returns the number of 3rd shots of a given type in a game and the number of those shots that resulted in an error.
+        '''
+        ts_type = ts_type.lower()
+        if ts_type not in valid_third_shots:
+            raise ValueError("Invalid third shot type. Valid types are: {}".format(valid_third_shots))
+        ts_type = ts_type.title()
+        ts_rallies = self.rally[self.rally.ts_type == ts_type]
+        num_ts = len(ts_rallies)
+        num_third_errors = sum(ts_rallies.rally_len == 3)
+        return num_ts, num_third_errors
 
     def get_winners(self, player_id: str, rally_num: int) -> int:
         '''
